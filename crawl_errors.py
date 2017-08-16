@@ -109,22 +109,6 @@ def create_search_console_client(credentials):
 	service = build('webmasters', 'v3', http=http_auth)
 	return service
 
-
-def generate_filters(**kwargs):
-	"""
-	Yields a filter list for each combination of the args provided.
-	"""
-	kwargs = OrderedDict((k, v) for k, v in kwargs.items() if v)
-	dimensions = kwargs.keys()
-	values = list(kwargs.values())
-	for vals in itertools.product(*values):
-		yield [{
-			'dimension': dim,
-			'operator': 'equals',
-			'expression': val} for dim, val in zip(dimensions, vals)
-			  ]
-
-
 @rate_limit(200)
 def execute_request(service, property_uri, category, platform, max_retries=5, wait_interval=4,
 					retry_errors=(503, 500)):
@@ -194,7 +178,6 @@ def parse_command_line_options():
 	parser.add_argument('--config_file', type=str, help='File path of a config file containing settings for this Search Console property.')
 	parser.add_argument('--output_location', type=str, help='The folder output location of the script.', default="")
 	parser.add_argument('--url_type', type=str, help='A string to add to the beginning of the file', default="")
-	# parser.add_argument('--max-rows-per-day', '-n', type=int, default=500, help='The maximum number of rows to return for each day in the range')
 
 	filters = parser.add_argument_group('filters')
 	filters.add_argument('--category', type=str, help='The crawl error category parameter. See https://developers.google.com/webmaster-tools/search-console-api-original/v3/urlcrawlerrorssamples/list')

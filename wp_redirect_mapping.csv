@@ -1,0 +1,8 @@
+slug_pattern, destination
+search/,/?s
+forums/,/forums/
+RCLP/,/download/
+q&a/,/category/adhd-experts/
+resources/directory,http://directory.additudemag.com/
+resource-center/,/
+adhdblogs/,/category/blog/
